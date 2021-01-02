@@ -1,18 +1,19 @@
 import get_list_artists
 import urllib.request
+from datetime import datetime
 
 from selenium import webdriver
 import time
 import os
 url_test = 'https://www.wikiart.org/en/artists-by-art-movement/baroque/text-list'
-chrome_path = r'C:\Users\kimhi\Desktop\python-crawler\chromedriver_win32\chromedriver.exe'
+chrome_path = os.getcwd() + '\\chromedriver_win32\\chromedriver.exe'
 
 
-def get_artists_info(chrome_path):
+def get_artists_info(url, path):
     links_list_artist, dirName = get_list_artists.getListArtist(
-        url_test, chrome_path)
+        url, chrome_path)
 
-    os.chdir(dirName)
+    os.chdir(path)
 
     options = webdriver.ChromeOptions()
     options.add_argument("start-maximized")
@@ -71,6 +72,10 @@ def get_artists_info(chrome_path):
                     replace_link = link_image.find('!')
                     if(replace_link >= 0):
                         link_image = link_image[:replace_link]
+                    # check file name
+                    if os.path.exists(title_image):
+                        now = datetime.now()
+                        title_image = title_image + now
                     # save image
                     urllib.request.urlretrieve(
                         link_image, title_image)
@@ -91,11 +96,11 @@ def get_artists_info(chrome_path):
             f = open('list-articles.txt', 'w+')
             aResult = []
             try:
-                 # get list link ul li
+                # get list link ul li
                 ulTagIndiv = driver.find_element_by_xpath(
-                      "//ul[@class='painting-list-text ng-scope']")
+                    "//ul[@class='painting-list-text']")
                 aTagsInLi = ulTagIndiv.find_elements_by_css_selector(
-                       "li a")
+                    "li a")
                 for a in aTagsInLi:
                     temp = a.get_attribute('href')
                     aResult.append(temp)
@@ -116,6 +121,10 @@ def get_artists_info(chrome_path):
                     replace_link = link_image.find('!')
                     if(replace_link >= 0):
                         link_image = link_image[:replace_link]
+                    # check file name
+                    if os.path.exists(title_image):
+                        now = datetime.now()
+                        title_image = title_image + now
                     # save image
                     urllib.request.urlretrieve(
                         link_image, title_image)
@@ -126,4 +135,4 @@ def get_artists_info(chrome_path):
         os.chdir('..')
 
 
-get_artists_info(chrome_path)
+# get_artists_info(chrome_path)
