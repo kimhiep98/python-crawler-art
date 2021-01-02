@@ -73,7 +73,7 @@ def get_artists_info(url, path):
                     if(replace_link >= 0):
                         link_image = link_image[:replace_link]
                     # check file name
-                    if os.path.exists(title_image):
+                    if os.path.exists(os.getcwd() + "/" + title_image):
                         now = datetime.now()
                         title_image = title_image + now
                     # save image
@@ -122,7 +122,7 @@ def get_artists_info(url, path):
                     if(replace_link >= 0):
                         link_image = link_image[:replace_link]
                     # check file name
-                    if os.path.exists(title_image):
+                    if os.path.exists(os.getcwd() + "/" + title_image):
                         now = datetime.now()
                         title_image = title_image + now
                     # save image
